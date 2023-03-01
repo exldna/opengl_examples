@@ -3,5 +3,12 @@ project(opengl_example CXX)
 
 add_executable(opengl_example main.cxx)
 
-find_package(glfw3 CONFIG REQUIRED)
+set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE)
+set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
+set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
+
+add_subdirectory(ext/glfw)
 target_link_libraries(opengl_example glfw)
+
+find_package(OpenGL REQUIRED)
+target_link_libraries(opengl_example OpenGL::GL)
