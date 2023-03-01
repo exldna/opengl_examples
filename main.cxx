@@ -6,6 +6,7 @@
 # include <GLFW/glfw3.h>
 
 # include <iostream>
+# include <array>
 
 int main() {
     if (!glfwInit()) {
@@ -34,6 +35,20 @@ int main() {
     }
 
     glClearColor(0.8, 0.2, 0.1, 0.0);
+
+    std::array<float, 9> vertices = {
+            -0.5, -0.5, 0.f,
+            0.f, 0.5, 0.f,
+            0.5, -0.5, 0.f,
+    };
+
+    unsigned int vertex_buffer = 0;
+    glGenBuffers(1, &vertex_buffer);
+    glBindBuffer(GL_ARRAY_BUFFER, vertex_buffer);
+
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices.data(), GL_STATIC_DRAW);
+
+    
 
     while (!glfwWindowShouldClose(window)) {
         glfwPollEvents();
