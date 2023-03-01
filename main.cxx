@@ -2,7 +2,9 @@
 // Created by asuka on 01.03.2023.
 //
 
+# include <glad/glad.h>
 # include <GLFW/glfw3.h>
+
 # include <iostream>
 
 int main() {
@@ -17,8 +19,19 @@ int main() {
         return 1;
     }
 
+    glfwMakeContextCurrent(window);
+
+    if (!gladLoadGL()) {
+        std::cout << "failed to initialize glad\n";
+        return -1;
+    }
+
+    glClearColor(0.8, 0.2, 0.1, 0.0);
+
     while (!glfwWindowShouldClose(window)) {
         glfwPollEvents();
+        glClear(GL_COLOR_BUFFER_BIT);
+        glfwSwapBuffers(window);
     }
 
     glfwTerminate();

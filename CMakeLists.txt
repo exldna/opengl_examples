@@ -12,3 +12,6 @@ target_link_libraries(opengl_example glfw)
 
 find_package(OpenGL REQUIRED)
 target_link_libraries(opengl_example OpenGL::GL)
+
+add_subdirectory(ext/glad)
+target_link_libraries(opengl_example glad)
