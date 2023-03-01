@@ -8,6 +8,19 @@
 # include <iostream>
 # include <array>
 
+const char* vertex_shader_source =
+        "#version 330 core\n"
+        "void main() {\n"
+        "   gl_Position = vec4(0, 0, 0, 0);\n"
+        "}";
+
+const char* fragment_shader_source =
+        "#version 330 core\n"
+        "out vec4 frag_color;\n"
+        "void main() {\n"
+        "   frag_color = vec4(0.1, 0.2, 0.8, 1.0);\n"
+        "}";
+
 int main() {
     if (!glfwInit()) {
         std::cout << "failed init glfw\n";
@@ -36,6 +49,27 @@ int main() {
 
     glClearColor(0.8, 0.2, 0.1, 0.0);
 
+    unsigned int vertex_shader = glCreateShader(GL_VERTEX_SHADER);
+    glShaderSource(vertex_shader, 1, &vertex_shader_source, nullptr);
+    glCompileShader(vertex_shader);
+
+    unsigned int fragment_shader = glCreateShader(GL_FRAGMENT_SHADER);
+    glShaderSource(fragment_shader, 1, &fragment_shader_source, nullptr);
+    glCompileShader(fragment_shader);
+
+    unsigned int program = glCreateProgram();
+    glAttachShader(program, vertex_shader);
+    glAttachShader(program, fragment_shader);
+
+    glLinkProgram(program);
+
+    glDetachShader(program, vertex_shader);
+    glDetachShader(program, fragment_shader);
+    glDeleteShader(vertex_shader);
+    vertex_shader = 0;
+    glDeleteShader(fragment_shader);
+    fragment_shader = 0;
+
     std::array<float, 9> vertices = {
             -0.5, -0.5, 0.f,
             0.f, 0.5, 0.f,
@@ -47,8 +81,6 @@ int main() {
     glBindBuffer(GL_ARRAY_BUFFER, vertex_buffer);
 
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices.data(), GL_STATIC_DRAW);
-
-    
 
     while (!glfwWindowShouldClose(window)) {
         glfwPollEvents();
