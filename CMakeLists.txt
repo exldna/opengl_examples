@@ -3,15 +3,11 @@ project(opengl_example CXX)
 
 add_executable(opengl_example main.cxx)
 
-set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE)
-set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
-set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
+find_package(glad REQUIRED)
+target_link_libraries(opengl_example glad::glad)
 
-add_subdirectory(ext/glfw)
+find_package(glfw3 REQUIRED)
 target_link_libraries(opengl_example glfw)
 
 find_package(OpenGL REQUIRED)
 target_link_libraries(opengl_example OpenGL::GL)
-
-add_subdirectory(ext/glad)
-target_link_libraries(opengl_example glad)
