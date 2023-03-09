@@ -1,0 +1,3 @@
+
+add_executable(hello_triangle main.cxx)
+target_link_libraries(hello_triangle settings)
